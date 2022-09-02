@@ -3,8 +3,9 @@ from svglib.svglib import svg2rlg
 import numpy as np
 from reportlab.graphics.shapes import Line, Circle
 
-def lerp(t, l0, l1):
-    c = t * l0 + (1 - t) * l1
+def lerp(t, points):
+    (x0, l0), (x1, l1) = points
+    c = (t - x0) / (x1 - x0) * l0 + (x1 - t) / (x1 - x0) * l1
     return c
 
 def old_quad_lerp(t, l0, l1, l2, l3):
@@ -115,21 +116,23 @@ class SpectrumWord():
 
     def sample(self, T):
         assert len(self.P) == len(T)
-        locs = [(-1, -1), (1, -1), (-1, 1), (1, 1)]
+
         # P is a list of letters, each letter has F forms, each form has the same amount of bezier curves,
         # the curves has the same amount of control points
         for i, (t, L) in enumerate(zip(T, self.P)):
+            locs = [-1, 1]
             # ith letter
             L = np.asarray(L)
             # linear interpolation
             if len(L) == 2:
-                print(i, [len(x) for x in L[0]], [len(x) for x in L[1]])
-                c = lerp(t, *L)
+                #print(i, [len(x) for x in L[0]], [len(x) for x in L[1]])
+                c = lerp(t, [(locs[0], L[0]),
+                            (locs[1], L[1])])
 
             # bilinear interpolation
             if len(L) == 4:
+                locs = [(-1, -1), (1, -1), (-1, 1), (1, 1)]
                 l0, l1, l2, l3 = L[0], L[1], L[2], L[3]
-                #c = old_quad_lerp(t, *L)
                 c = bilinear_interpolation(*t,
                                        [(*locs[0], l0),
                                         (*locs[1], l2),

@@ -12,18 +12,16 @@ pi = math.pi
 def PointsInCircum(r,n=100):
     return [(math.cos(2*pi/n*x)*r,math.sin(2*pi/n*x)*r) for x in range(0,n+1)]
 
-def sample_centers(forms_count, l_count, dist, R=1,r=0.1):
+def sample_centers(forms_count, l_count, dist, R=1, r=0.1):
     dim = int(forms_count / 2)
+    lower, upper = -R + r, R - r
     if dist == "normal":
-        R = 1
-        r = 0.1
-        lower, upper = -R + r, R - r
         mu, sigma = 0, 0.7
         X = stats.truncnorm(
             (lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma)
         C = X.rvs(size=(l_count, dim))
     elif dist == "uniform":
-        C = np.random.uniform(-1, 1, size=(l_count, dim))
+        C = np.random.uniform(lower, upper, size=(l_count, dim))
     return C
 
 def sample_cirular_animation(centers,L,N,r=0.1):
@@ -31,17 +29,18 @@ def sample_cirular_animation(centers,L,N,r=0.1):
     samples = np.tile(F[:,None], (L, 1))
     return samples + centers
 
-def sample_animation_rate(L,N,P,r=0.75):
-    F = np.concatenate((np.zeros(P) ,np.linspace(0,1,N), np.ones(P)))
-    F = np.concatenate((F, F[::-1]))
-    samples = np.tile(F, (L,1)).T
+def sample_straight_animation(L,N,P, center=0, r=1,rate=0.75):
+    start, end = center - r, center + r
+    F = np.concatenate((np.tile(start[:], (P,1, 1)) ,np.linspace(start,end,N), np.tile(end[:], (P,1, 1))))
+    samples = np.concatenate((F, F[::-1]))
+    #samples = np.tile(F, (L,1)).T
     #return samples
     samples = np.roll(samples, -P, 0)
     for i in range(L):
         # Reverse order
         #ind = L-i-1
         ind = i
-        samples[:,ind] = np.roll(samples[:,ind], int(r*N/L)*i)
+        samples[:,ind] = np.roll(samples[:,ind], int(rate*N/L)*i)
     return samples
 
 def gen_frame(path):
