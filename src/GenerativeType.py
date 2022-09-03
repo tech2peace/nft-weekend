@@ -69,9 +69,9 @@ def main():
 
     nft = GenerativeType(input_path, name, outdir, 1, 0.2)
     seed = None
-    for i in range(20):
+    for i in range(0):
         nft.generate_image(i, i)
-    for i in range(10):
+    for i in range(20):
         nft.generate_animation(i, seed, False)
 
 if "__main__" == __name__:
