@@ -67,10 +67,10 @@ def main():
     outdir = f"../Results/{name}"
     Path(outdir).mkdir(parents=True, exist_ok=True)
 
-    nft = GenerativeType(input_path, name, outdir, 1, 0.1)
+    nft = GenerativeType(input_path, name, outdir, 1, 0.2)
     seed = None
-    for i in range(10):
-        nft.generate_image(i, seed)
+    for i in range(20):
+        nft.generate_image(i, i)
     for i in range(10):
         nft.generate_animation(i, seed, False)
 
