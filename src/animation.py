@@ -2,7 +2,6 @@ from PIL import Image
 import cairosvg
 from reportlab.graphics import renderSVG, renderPM
 import numpy as np
-import scipy.stats as stats
 import os
 #TODO: Add parameters for reading speed, and letter morph speed
 
@@ -11,18 +10,6 @@ pi = math.pi
 
 def PointsInCircum(r,n=100):
     return [(math.cos(2*pi/n*x)*r,math.sin(2*pi/n*x)*r) for x in range(0,n+1)]
-
-def sample_centers(forms_count, l_count, dist, R=1, r=0.1):
-    dim = int(forms_count / 2)
-    lower, upper = -R + r, R - r
-    if dist == "normal":
-        mu, sigma = 0, 0.7
-        X = stats.truncnorm(
-            (lower - mu) / sigma, (upper - mu) / sigma, loc=mu, scale=sigma)
-        C = X.rvs(size=(l_count, dim))
-    elif dist == "uniform":
-        C = np.random.uniform(lower, upper, size=(l_count, dim))
-    return C
 
 def sample_cirular_animation(centers,L,N,r=0.1):
     F = np.asarray(PointsInCircum(r, n=N))
