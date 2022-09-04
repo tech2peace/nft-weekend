@@ -62,17 +62,17 @@ class GenerativeType():
         #             "svg" = }
 
 def main():
-    input_path = "../Art/World.svg"
-    name = "World"
+    input_path = "../Art/Rick.svg"
+    name = "Rick"
     outdir = f"../Results/{name}"
     Path(outdir).mkdir(parents=True, exist_ok=True)
 
-    nft = GenerativeType(input_path, name, outdir, 1, 0.2)
+    nft = GenerativeType(input_path, name, outdir, 1, 0.1)
     seed = None
-    for i in range(0):
-        nft.generate_image(i, i)
-    for i in range(20):
-        nft.generate_animation(i, seed, False)
+    for i in range(10):
+        nft.generate_image(i, seed)
+    for i in range(10):
+        nft.generate_animation(i, seed, True)
 
 if "__main__" == __name__:
     main()
