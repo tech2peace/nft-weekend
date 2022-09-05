@@ -48,6 +48,16 @@ def gen_frame(path):
 
     return im
 
+def print_drawing(sWord, samples, name, outdir="."):
+    sWord.sample(samples)
+
+    svgfname = outdir + f"/{name}.svg"
+    pngfname = outdir + f"/{name}.png"
+    renderSVG.drawToFile(sWord.drawing, svgfname, fmt="SVG")
+    cairosvg.svg2png(url=svgfname, write_to=pngfname)
+    os.remove(svgfname)
+
+
 def animate_drawing(sWord, samples, name, outdir=".", transparent=False):
     images = []
     for i, sample in enumerate(samples):
