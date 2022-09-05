@@ -90,6 +90,10 @@ class LetterForm():
         if type(letter_form) == Line:
             control_points = [letter_form.x1, letter_form.x2, letter_form.y1, letter_form.y2]
             self.strokes.append(np.asarray(control_points))
+            sc = letter_form.strokeColor
+            self.stroke_color = np.asarray(
+                [sc.red, sc.green, sc.blue])
+            self.stroke_width = letter_form.strokeWidth
         else:
             for letter_part in letter_form.contents:
                 if hasattr(letter_part, "contents"):
@@ -134,16 +138,15 @@ class SpectrumWord():
     def set_drawing_points(self, i, points, color, width):
         for p, g in zip(points, self.word.contents[i].contents):
             if hasattr(g, "contents"):
-                g.contents[0].points = p.tolist()
+                g = g.contents[0]
+            if type(g) == Line:
+                g.x1, g.x2, g.y1, g.y2 = p.tolist()
+            elif type(g) == Circle:
+                g.cx, g.cy = p.tolist()
             else:
-                if type(g) == Line:
-                    g.x1, g.x2, g.y1, g.y2 = p.tolist()
-                elif type(g) == Circle:
-                    g.cx, g.cy = p.tolist()
-                else:
-                    g.strokeColor.red, g.strokeColor.green, g.strokeColor.blue = color
-                    g.strokeWidth = width
-                    g.points = p.tolist()
+                g.strokeColor.red, g.strokeColor.green, g.strokeColor.blue = color
+                g.strokeWidth = width
+                g.points = p.tolist()
 
     def sample(self, T):
         assert len(self.P) == len(T)
