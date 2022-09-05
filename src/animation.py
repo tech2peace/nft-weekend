@@ -58,11 +58,17 @@ def animate_drawing(sWord, samples, name, outdir=".", transparent=False):
             renderSVG.drawToFile(sWord.drawing, svgfname, fmt="SVG")
             cairosvg.svg2png(url=svgfname, write_to=pngfname)
             images.append(gen_frame(pngfname))
-            os.remove(svgfname)
+            try:
+                os.remove(svgfname)
+            except:
+                print(f"Couldn't delete {svgfname}")
         else:
             renderPM.drawToFile(sWord.drawing, pngfname, fmt="PNG")
             images.append(Image.open(pngfname).copy())
-        os.remove(pngfname)
+        try:
+            os.remove(pngfname)
+        except:
+            print(f"Couldn't delete {pngfname}")
 
     images[0].save(outdir + f'/{name}.gif',
                    save_all=True,

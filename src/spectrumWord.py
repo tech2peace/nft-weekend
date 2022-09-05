@@ -52,7 +52,7 @@ def find_by_id(drawing, id):
             return res
     return None
 
-def unpack_drawing(drawing):
+def unpack_drawing(drawing, offset_stroke=None):
     words = find_by_id(drawing, "Words")
 
     word_forms = words.contents
@@ -60,9 +60,14 @@ def unpack_drawing(drawing):
     letters = zip(*[wordform.contents for wordform in word_forms])
     P = [[LetterForm(letter_form) for letter_form in letter_forms] for letter_forms in letters]
 
-    # Keep only one word form
-    words.contents = words.contents[:1]
-    return words.contents[0], P, len(word_forms)
+    if offset_stroke:
+        # Keep two word forms
+        words.contents = words.contents[:2]
+        return words.contents[1], P, len(word_forms), words.contents[0]
+    else:
+        # Keep only one word form
+        words.contents = words.contents[:1]
+        return words.contents[0], P, len(word_forms), None
 
 class LetterForm():
 
@@ -109,7 +114,7 @@ class LetterForm():
                 else:
                     control_points = letter_part.points
                 self.strokes.append(np.asarray(control_points))
-        self.strokes = np.asarray(self.strokes)
+        self.strokes = np.asarray(self.strokes, dtype=object)
 
     def __mul__(self, scalar):
         s, sc, sw = self.strokes * scalar, self.stroke_color * scalar, self.stroke_width * scalar
@@ -128,15 +133,17 @@ class LetterForm():
 
 class SpectrumWord():
 
-    def __init__(self, input_path):
+    def __init__(self, input_path, offset_stroke=None):
         self.drawing = svg2rlg(input_path)
         # P is a list of letters, each letter has F forms, each form has the same amount of bezier curves,
         # the curves has the same amount of control points
-        self.word, self.P, self.forms_count = unpack_drawing(self.drawing)
+        if offset_stroke:
+            self.offset_stroke_color, self.offset_stroke_width = offset_stroke
+        self.word, self.letters, self.forms_count, self.offset_stroke = unpack_drawing(self.drawing, offset_stroke)
         return
 
-    def set_drawing_points(self, i, points, color, width):
-        for p, g in zip(points, self.word.contents[i].contents):
+    def set_drawing_points(self, letter_parts, points, color, width):
+        for p, g in zip(points, letter_parts.contents):
             if hasattr(g, "contents"):
                 g = g.contents[0]
             if type(g) == Line:
@@ -149,11 +156,11 @@ class SpectrumWord():
                 g.points = p.tolist()
 
     def sample(self, T):
-        assert len(self.P) == len(T)
+        assert len(self.letters) == len(T)
 
         # P is a list of letters, each letter has F forms, each form has the same amount of bezier curves,
         # the curves has the same amount of control points
-        for i, (t, letter_forms) in enumerate(zip(T, self.P)):
+        for i, (t, letter_forms) in enumerate(zip(T, self.letters)):
             locs = [-1, 1]
             # ith letter
             # linear interpolation
@@ -166,6 +173,8 @@ class SpectrumWord():
                 points = list(zip(*locs.T, letter_forms))
                 cp = bilinear_interpolation(*t, points)
 
-            self.set_drawing_points(i, cp.strokes, cp.stroke_color, cp.stroke_width)
+            if self.offset_stroke:
+                self.set_drawing_points(self.offset_stroke.contents[i], cp.strokes, self.offset_stroke_color, cp.stroke_width + self.offset_stroke_width)
+            self.set_drawing_points(self.word.contents[i], cp.strokes, cp.stroke_color, cp.stroke_width)
         return self.drawing
 

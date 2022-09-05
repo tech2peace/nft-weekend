@@ -12,7 +12,7 @@ from randomness import sample_centers
 
 class GenerativeType():
 
-    def __init__(self, url, name, outdir, R, r):
+    def __init__(self, url, name, outdir, R, r, offset_stroke=None):
         #base_svg = download(url)
         svg_path = url
         # Radius of spectrum
@@ -21,14 +21,14 @@ class GenerativeType():
         self.r = r
         self.name = name
         self.outdir = outdir
-        self.word = SpectrumWord(svg_path)
-        self.l_count = len(self.word.P)
-        if self.word.forms_count not in [2,4]:
-            raise Exception("GenerativeType supports only 2 or 4 forms")
+        self.word = SpectrumWord(svg_path, offset_stroke)
+        self.l_count = len(self.word.letters)
         if self.word.forms_count == 2:
             self.dist = "uniform"
-        else:
+        elif self.word.forms_count == 4:
             self.dist = "normal"
+        else:
+            raise Exception("GenerativeType supports only 2 or 4 forms")
 
 
     def generate_animation(self, id, seed=None, transparent=True):
@@ -67,7 +67,7 @@ def main():
     outdir = f"../Results/{name}"
     Path(outdir).mkdir(parents=True, exist_ok=True)
 
-    nft = GenerativeType(input_path, name, outdir, 1, 0.1)
+    nft = GenerativeType(input_path, name, outdir, 1, 0.1, ((0, 139/255, 68/255), 5))
     seed = None
     for i in range(10):
         nft.generate_image(i, seed)
