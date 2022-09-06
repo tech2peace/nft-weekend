@@ -177,4 +177,3 @@ class SpectrumWord():
                 self.set_drawing_points(self.offset_stroke.contents[i], cp.strokes, self.offset_stroke_color, cp.stroke_width + self.offset_stroke_width)
             self.set_drawing_points(self.word.contents[i], cp.strokes, cp.stroke_color, cp.stroke_width)
         return self.drawing
-

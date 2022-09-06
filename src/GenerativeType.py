@@ -49,7 +49,7 @@ class GenerativeType():
         C = sample_centers(self.word.forms_count, self.l_count, self.dist, self.R, self.r)
         print_drawing(self.word, C, f"{self.name}_{id}", self.outdir)
         if self.word.forms_count == 2:
-            samples = sample_straight_animation(self.l_count, self.frames_count, self.pad, C, self.r)
+            samples = sample_straight_animation(C, self.l_count, self.frames_count, self.pad, self.r)
 
         elif self.word.forms_count == 4:
             samples = sample_cirular_animation(C, self.l_count, self.frames_count, self.r)
@@ -69,7 +69,8 @@ def main():
 
     seed_data = json.load(open(config["randomness_path"]))
     for entry in seed_data:
-        nft.generate(entry["id"], entry["randomness"] % SEED_MAX)
+        C = nft.generate(entry["id"], entry["randomness"] % SEED_MAX)
+
 
 if "__main__" == __name__:
     main()

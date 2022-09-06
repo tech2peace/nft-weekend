@@ -3,7 +3,6 @@ import cairosvg
 from reportlab.graphics import renderSVG, renderPM
 import numpy as np
 import os
-#TODO: Add parameters for reading speed, and letter morph speed
 
 import math
 pi = math.pi
@@ -16,8 +15,8 @@ def sample_cirular_animation(centers,L,N,r=0.1):
     samples = np.tile(F[:,None], (L, 1))
     return samples + centers
 
-def sample_straight_animation(L,N,P, center=0, r=1,rate=0.75):
-    start, end = center - r, center + r
+def sample_straight_animation(centers, L,N,P, r=0.1,rate=0.75):
+    start, end = centers - r, centers + r
     F = np.concatenate((np.tile(start[:], (P,1, 1)) ,np.linspace(start,end,N), np.tile(end[:], (P,1, 1))))
     samples = np.concatenate((F, F[::-1]))
     #samples = np.tile(F, (L,1)).T
@@ -56,7 +55,6 @@ def print_drawing(sWord, samples, name, outdir="."):
     renderSVG.drawToFile(sWord.drawing, svgfname, fmt="SVG")
     cairosvg.svg2png(url=svgfname, write_to=pngfname)
     os.remove(svgfname)
-
 
 def animate_drawing(sWord, samples, name, outdir=".", transparent=False):
     images = []
