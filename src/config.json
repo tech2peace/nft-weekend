@@ -1,0 +1,15 @@
+{
+	"randomness_path" : "randomness.json",
+	"svg_path" : "../Art/Rick.svg",
+	"name" : "Rick",
+
+	"os_color" : [255, 255, 255],
+	"os_width" : 10,
+
+	
+	"R" : 1,
+	"r" : 0.1,
+
+	"frames" : 20,
+	"transparency" : true
+}
