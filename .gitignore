@@ -4,3 +4,5 @@ Results/
 .DS_Store
 
 src/__pycache__/
+
+.env
