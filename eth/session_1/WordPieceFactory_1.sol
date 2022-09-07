@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
  * @title WordPieceFactory
  * @dev ERC721 token contract for WordPiece NFT
  */
-contract WordPieceFactory is ERC721, VRFConsumerBaseV2 {
+contract WordPieceFactory is ERC721 {
 
     address private immutable _owner;
 
