@@ -107,3 +107,7 @@ import "@chainlink/contracts/src/v0.8/mocks/VRFCoordinatorV2Mock.sol";
     function tokenURI(uint256 tokenId) public override view returns (string memory) {
 ```
 and implement it so it returns the uri of the token corresponding to the given id. This function is required to nicely display your NFT art on OpenSea (see the [documentation of the OpenSea format](https://docs.opensea.io/docs/metadata-standards)).
+
+### Freestyle
+
+18. This is the time to wake up your creative self and add fancy features and game rules in your contract to make you NFT project unique and interesting :alien::monkey::sparkles:.
