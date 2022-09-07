@@ -15,6 +15,7 @@
 
 ## Instructions
 
+###
 1. Open **[Remix IDE](https://remix.ethereum.org/)** on your browser.
 2. Create a new workspace with the **OpenZeppelin ERC721** template.
 3. Set a fixed name and symbol for your token in `constructor`.
@@ -22,4 +23,5 @@
 5. Test what you've got so far locally on a Remix's virtual machine:
     1. Go to the **Deploy & run transactions** tab on the sidebar on the left.
     2. Choose one of the **Remix VM** options for environment and your contract in the contract field.
-    3. Fill in the a base Uri of your choice next to the orange **Deploy** button, then click it to deploy the contract.
+    3. Fill in a `baseUri` input of your choice next to the orange **Deploy** button, then click it to deploy the contract.
+    4. You can now see the locally deployed instance under **Deployed Contracts** and test it by interacting with the interface.
