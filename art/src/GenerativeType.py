@@ -1,11 +1,4 @@
-import os
-try:
-    os.environ['path'] += r';C:\Program Files\UniConvertor-2.0rc5\dlls'
-except:
-    pass
-
 import json
-import numpy as np
 from pathlib import Path
 from spectrumWord import SpectrumWord
 from animation import *
