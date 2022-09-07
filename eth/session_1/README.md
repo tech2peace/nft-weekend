@@ -25,7 +25,7 @@ We start by fetching a general tempalte for an ERC721 token contract and testing
 
 1. Open **[Remix IDE](https://remix.ethereum.org/)** on your browser.
 2. Create a new workspace with the **OpenZeppelin ERC721** template. This creates blank contract that is inheriting from [OpenZepplin's ERC721 token contract](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/ERC721.sol) ([docs](https://docs.openzeppelin.com/contracts/2.x/erc721)) which is the community's standard for NFT contracts, and provides an implementatoin of basic non-fungible token functionalities, e.g. token ownership, minting and transfer.
-3. Set a fixed name and symbol for your token in `constructor`.
+3. Change the contract's name and set a fixed name and symbol for your token in `constructor`.
 4. Add a `baseUri` field and initalize it in `constructor` with a string passed on as argument. Read more about [state variables](https://docs.soliditylang.org/en/v0.8.9/structure-of-a-contract.html#state-variables), data [types](https://docs.soliditylang.org/en/v0.8.9/types.html) and [locations](https://docs.soliditylang.org/en/v0.8.13/types.html#data-location-and-assignment-behaviour) in the solidity documentation pages.
 5. Test what you've got so far, locally on a Remix's virtual machine:
     1. Go to the **Deploy & run transactions** tab on the sidebar on the left.

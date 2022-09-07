@@ -28,6 +28,7 @@ contract WordPieceFactory is ERC721, VRFConsumerBaseV2 {
         uint256 vrfRequestId;
         uint256 randomness;
         string uri;
+        Status status;
     }
 
     mapping(uint256 => WordPiece) public pieceById;
@@ -69,6 +70,11 @@ contract WordPieceFactory is ERC721, VRFConsumerBaseV2 {
         tokenCounter = 0;
     }
 
+    // for OpenSea
+    function tokenURI(uint256 pieceId) public override view returns (string memory) {
+        return pieceById[pieceId].uri;
+    }
+
     function createPiece() public onlyOwner() returns (uint256) {
         require(tokenCounter < supply, "supply limit reached");
         uint256 newId = tokenCounter;
@@ -87,9 +93,18 @@ contract WordPieceFactory is ERC721, VRFConsumerBaseV2 {
         WordPiece storage newPiece = pieceById[newId];
         newPiece.id = newId;
         newPiece.vrfRequestId = vrfRequestId;
+        newPiece.status = Status.PENDING_RANDOMNESS;
         idByRequest[vrfRequestId] = newId;
 
         return newId;
+    }
+
+    function revealPiece(uint256 pieceId, string memory pieceUri) public onlyOwner() {
+        WordPiece storage piece = pieceById[pieceId];
+        require(piece.status == Status.PENDING_REVEAL, "piece with given id cannot be revealed");
+
+        piece.uri = pieceUri;
+        piece.status = Status.REVEALED;
     }
 
     function fulfillRandomWords(uint256 requestId, uint256[] memory randomWords)
@@ -100,6 +115,7 @@ contract WordPieceFactory is ERC721, VRFConsumerBaseV2 {
         require(randomWords.length > 0, "VRF response is empty");
 
         piece.randomness = randomWords[0];
+        piece.status = Status.PENDING_REVEAL;
     }
 
     function withdraw() public onlyOwner() {
