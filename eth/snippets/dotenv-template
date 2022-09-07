@@ -1,0 +1,9 @@
+PRIVATE_KEY =
+
+CONTRACT_ADDRESS = ''
+CONTRACT_ABI = '../contract/abi/WordPieceFactory.json'
+
+INFURA_URL = 'https://rinkeby.infura.io/v3/ebec28346a764aa3a9a0a2df150c9328'
+
+RANDOMNESS_FILENAME = '../input/randomness.json'
+OUTPUT_DIR = '../output'
