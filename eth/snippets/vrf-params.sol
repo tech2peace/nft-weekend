@@ -20,6 +20,6 @@ uint32 public constant vrfCallbackGasLimit = 100000;
 // The default is 3, but you can set this higher.
 uint16 public constant vrfRequestConfirmations = 3;
 
-// For this example, retrieve 2 random values in one request.
+// For our purpose, retrieve 1 random value in one request.
 // Cannot exceed VRFCoordinatorV2.MAX_NUM_WORDS.
 uint32 public constant vrfNumWords =  1;
