@@ -17,12 +17,7 @@ contract WordPieceFactory is ERC721 {
     uint256 public constant supply = 11;
     uint256 public tokenCounter;
 
-    struct WordPiece {
-        uint256 id;
-        string uri;
-    }
-
-    mapping(uint256 => WordPiece) public pieceById;
+    mapping(uint256 => string) public uriById;
 
     constructor(string memory base) ERC721("WordPiece", "WRD") VRFConsumerBaseV2(vrfCoordinator) {
         _owner = msg.sender;
@@ -37,9 +32,7 @@ contract WordPieceFactory is ERC721 {
 
         _safeMint(msg.sender, newId);
 
-        WordPiece storage newPiece = pieceById[newId];
-        newPiece.id = newId;
-        newPiece.uri = pieceUri;
+        uriById[newId] = pieceUri;
         return newId;
     }
 
