@@ -13,6 +13,10 @@
 - [ ] Deploy contract
 - [ ] Automate interaction with contract
 
+## Provided Files
+
+The directory contains the file `WordPieceFactory.sol` which is an example of what you should have by the end of this session. We recommend, however, to try and follow the instructions to write your own contract from scratch (lots of fun and feelings of accomplishment and reward are guaranteed :smirk:).
+
 ## Instructions
 
 ### Getting Started
@@ -31,7 +35,7 @@ We start by fetching a general tempalte for an ERC721 token contract and testing
 
 ### Withdrawing from Contract
 
-As a general rule of thumb, always implement a function that will let you withdraw all funds from any contract. You do not want funds to be locked in a contract for eternity.
+As a general rule of thumb, always implement a function that will let you withdraw all funds from any contract. You do not want funds to be locked in a contract for eternity :skull:.
 
 6. Define a new `withdraw` function to allow withdrawing funds that are stored in the contract. Read more about [functions](https://docs.soliditylang.org/en/v0.6.5/contracts.html#functions) in solidity in the documentation.
 7. Implement `withdraw`.
@@ -55,3 +59,4 @@ While the [ERC721 base class]((https://github.com/OpenZeppelin/openzeppelin-cont
 12. To ensure **rarity** of the art pieces, NFT projects typically limit the total number of tokens that can be minted. Declare a `constant` state variable `supply` that contains the maximum amount of tokens and use `require` to enforce that no tokens beyond the specified amount are minted.
 13. Lastly, in order to attach the given uri to the new token, use the `mapping` data structure provided by solidity (see [documentation](https://docs.soliditylang.org/en/v0.8.9/types.html#mapping-types)) and use it to map between ids and uris. The examples given [here](https://solidity-by-example.org/mapping/) might be useful to understand the syntax. Make sure to declare the mapping as public to allow easy lookup of the token uris.
 14. Test your contract on Remix's VM (see step 5 above).
+15. Dance :dancer:.
