@@ -80,6 +80,7 @@ def generate_metadata_file(config, ar_heb_percentages, background_image):
     return metadata
 
 
+
 def main():
     configuration_path = "config.json"
     config = json.load(open(configuration_path))
@@ -87,11 +88,20 @@ def main():
     nft = GenerativeType(config)
 
     seed_data = json.load(open(config["randomness_path"]))
-    for entry in seed_data:
-        ar_heb = nft.generate(entry["id"], entry["randomness"] % SEED_MAX)
-        # TODO: extract image name from config["background_image"] filename
-        metadata = generate_metadata_file(config, ar_heb, config["background_images"][0])
-        json.dump(metadata, open(f"{nft.outdir}/metadata_{entry['id']}.json", 'w'))
+    if False:
+        for entry in seed_data:
+            ar_heb = nft.generate(entry["id"], entry["randomness"] % SEED_MAX)
+            metadata_path = f"{nft.outdir}/metadata_{entry['id']}.json"
+            # TODO: extract image name from config["background_image"] filename
+            metadata = generate_metadata_file(config, ar_heb, config["background_images"][0])
+            json.dump(metadata, open(metadata_path, 'w'))
+    else:
+        for i in range(20):
+            ar_heb = nft.generate(i, None) #entry["randomness"] % SEED_MAX)
+            metadata_path = f"{nft.outdir}/metadata_{i}.json"
+            # TODO: extract image name from config["background_image"] filename
+            metadata = generate_metadata_file(config, ar_heb, config["background_images"][0])
+            json.dump(metadata, open(metadata_path, 'w'))
 
 if "__main__" == __name__:
     main()
