@@ -41,8 +41,9 @@ Let us take a look at `VRFv2Consumer.sol`. This is an example of a basic contrac
 To summarize:
 - The contract `VRFv2Consumer` stores a pointer `COORDINATOR` to the a VRF coordinator which is specified by an address `vrfCoordinator` (that is different for different networks).
 - The contract request randomness by calling `COORDINATOR.requestRandomWords` with some specified parameters (in paritcular, the number of requested random words, `numWords`) and gets back a `requestId` (of type `uint256`).
-- To handle the VRF responces, the contract implements the `fulfillRandomWords` function that takes as input a `requestId` specifying the corresponding request the VRF is reponsindg to to and an array of size `numWords` that contains the randomness returned by the VRF.
+- To handle the VRF responces, the contract implements the `fulfillRandomWords` function that takes as input a `requestId` specifying the corresponding request the VRF is reponsindg to to and an `uint256` array of size `numWords` that contains the randomness returned by the VRF.
 
-4.
+4. Add an `uint256` randomness field to the `TokenData` struct. This will contain the randomness attached to the corresponding token.
+5. Following the template in `VRFv2Consumer.sol` and the explanation above, implement the logic for requesting a random word for every new token minted in `createToken`, and a `fulfillRandomWords` function that fills in the received randomness. Make sure to keep track of which randomness belongs to which token (hint: recall that you can use the `mapping` data structure to map between VRF request ids and token ids).
 
 ### Implement Delayed Reveal
