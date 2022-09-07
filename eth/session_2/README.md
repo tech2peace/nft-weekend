@@ -80,10 +80,18 @@ uint32 public constant vrfNumWords =  1;
 ```
 6. Following the template in `VRFv2Consumer.sol` and the explanation above, implement the logic to request a random word for every new token minted in `createToken`, and a `fulfillRandomWords` function that fills in the received randomness. Make sure to keep track of which randomness belongs to which token (hint: recall that you can use a `mapping` to map between VRF request ids and token ids).
 
-> To test the new changes on Remix's local VM, we need to simulate the behavior of the VRF coordinator is if we were interacting with the oracles on Ethereum's mainnet (or testnets). We do that using a mock contract that mimics a legit VRF Coordinator. Luckily, such a contract is publicly available [here](https://github.com/smartcontractkit/chainlink/blob/develop/contracts/src/v0.8/mocks/VRFCoordinatorV2Mock.sol). In order to import it to Remix, it is sufficient to import using the following line:
+> To test the new changes on Remix's local VM, we need to simulate the behavior of the VRF coordinator as if we were interacting with the oracles on Ethereum's mainnet (or testnets). We do that using a mock contract that mimics a legit VRF Coordinator (the only difference being that it outoputs "fake randomness" (which is predictable). Luckily, such a contract is publicly available [here](https://github.com/smartcontractkit/chainlink/blob/develop/contracts/src/v0.8/mocks/VRFCoordinatorV2Mock.sol).
+>
+
+7. In order to compile the mock contract to Remix, add the following line at the import section of the file:
 ```solidity
 import "@chainlink/contracts/src/v0.8/mocks/VRFCoordinatorV2Mock.sol";
 ```
+8. Compile the contract through the **Solidity Compiler** sidebar tab.
+9. Go to the **Deploy & Run Transactions** tab and deploy the `VRFCoordinatorV2Mock` contract, which can now found in the dropdown list. Set the input arguments for the deployment to `0,0`.
+10. At this point you should be seeing an instance of the mock contract under the **Deployed Contracts** section at the bottom of the sidebar. Click on the clipboard icon next to the contract to copy its address on the local network. This is the address of the VRF Coordinator that we will be using when we test our contract on the local network. Paste address to assign it to the `vrfCoordinator` state variable.
+11. Now that we have a mock deployed and its address copied to our contract, we need to create a subscription through which the VRF calls will be "funded" (more about Chainlink's VRF subscriptions in the [documentation](https://docs.chain.link/docs/vrf/v2/introduction/#subscriptions)). Click on the **createSubscription** button under the sidebar instant to call the mock contract and create a subscription. You should see a confirmation for the transaction in the terminal. Congratualations! you have subscribed to the mock VRF Coordinator. Since this is your first subscription, its id will be 1. You can verify that using a call to the `getSubscription` function (just click the button). Now you can fill in your subscription id (1) to the `vrfSubscriptionId` state variable.
+12. Having filled in all necessary configurations, we are ready to deploy the ERC721 contract. Go ahead and deploy it. Test your new functions. In order to "trigger" the mock VRF and make it respond to requests, call the `fulfillRandomWords` function in the mock oracle with the arguments specifying the id of the request you wish to get a respose to and the address of the contract that made this request (that is, the ERC721 contract).
 > 
 
 ### Implement Delayed Reveal
