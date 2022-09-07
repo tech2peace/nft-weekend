@@ -17,7 +17,7 @@
 ## Provided Files
 
 - `WordPieceFactory.sol` -- An example of what you should have by the end of this session. Again, we recommend you to follow the instructions and try it out by yourselves and use the given file for final comparison.
-- `VRFv2Consumer.sol` -- an example for a contract that calls Chainlink's VRF. This file will be useful to understand how the interaction with the VRF oracle works.
+- `VRFv2Consumer.sol` -- An example for a contract that calls Chainlink's VRF. This file will be useful to understand how the interaction with the VRF oracle works.
 
 ## Instructions
 
@@ -103,7 +103,7 @@ import "@chainlink/contracts/src/v0.8/mocks/VRFCoordinatorV2Mock.sol";
 15. Apply the `onlyOwner` modifer to the reveal function.
 16. Implement the logic to enforce that the reveal function can be called only once (hint: one possibility is to an `enum` (see [docs](https://docs.soliditylang.org/en/v0.8.16/structure-of-a-contract.html?highlight=struct#enum-types)) to describe the status of a token).
 17. Declare a `tokenUri` function as follows
-```soliditiy
+```solidity
     function tokenURI(uint256 tokenId) public override view returns (string memory) {
 ```
 and implement it so it returns the uri of the token corresponding to the given id. This function is required to nicely display your NFT art on OpenSea (see the [documentation of the OpenSea format](https://docs.opensea.io/docs/metadata-standards)).

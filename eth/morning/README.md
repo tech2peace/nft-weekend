@@ -21,7 +21,7 @@ The directory contains the file `WordPieceFactory.sol` which is an example of wh
 
 ### Getting Started
 
-We start by fetching a general tempalte for an ERC721 token contract and testing it locally on Remix.
+> We start by fetching a general tempalte for an ERC721 token contract and testing it locally on Remix.
 
 1. Open **[Remix IDE](https://remix.ethereum.org/)** on your browser.
 2. Create a new workspace with the **OpenZeppelin ERC721** template. This creates blank contract that is inheriting from [OpenZepplin's ERC721 token contract](https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/ERC721.sol) ([docs](https://docs.openzeppelin.com/contracts/2.x/erc721)) which is the community's standard for NFT contracts, and provides an implementatoin of basic non-fungible token functionalities, e.g. token ownership, minting and transfer.
@@ -35,7 +35,7 @@ We start by fetching a general tempalte for an ERC721 token contract and testing
 
 ### Withdrawing from Contract
 
-As a general rule of thumb, always implement a function that will let you withdraw all funds from any contract. You do not want funds to be locked in a contract for eternity :skull:.
+> As a general rule of thumb, always implement a function that will let you withdraw all funds from any contract. You do not want funds to be locked in a contract for eternity :skull:.
 
 6. Define a new `withdraw` function to allow withdrawing funds that are stored in the contract. Read more about [functions](https://docs.soliditylang.org/en/v0.6.5/contracts.html#functions) in solidity in the documentation.
 7. Implement `withdraw`.
@@ -45,14 +45,14 @@ As a general rule of thumb, always implement a function that will let you withdr
 
 ### The `OnlyOwner` Modifier
 
-The current `withdraw` function allows anyone on the Ethereum network to steal all our contract's funds. We obviously want to restrict it to be called only using our account (i.e. public key), that is, only by whoever deployed this instance of the contract, namely its **owner**.
+> The current `withdraw` function allows anyone on the Ethereum network to steal all our contract's funds. We obviously want to restrict it to be called only using our account (i.e. public key), that is, only by whoever deployed this instance of the contract, namely its **owner**.
 
 8. As a first step, let us store the address of the contract's owner upon deployment. Define an `owner` state field and initialize it in the `constructor` using `msg.sender`. Consider defining `owner` to be an `immutable` field (see the [docs](https://docs.soliditylang.org/en/v0.8.13/contracts.html#constant-and-immutable-state-variables)).
 9. Now, we could simply compare the caller's address in `withdraw` to the address in `owner` and allow withdrawal only if they match. However, a better more modular approach would be to implement a **function modifier** that allows execution of any function only when the caller of the function is the owner of the contract. In general, modifiers in solidity can be thought of as "filters" that can be applied over any function in the contract to modify it as defined in the modifier. Look at the [docs](https://docs.soliditylang.org/en/v0.8.13/contracts.html?highlight=modifier#function-modifiers) to read more about modifiers and their syntax, and to find an example for the `onlyOwner` modifier. As seen in the example, use `require` to handle the case when the caller's address does not match the owner's (read more about error handling in solidity [here](https://solidity-by-example.org/error/) and [here](https://ethereum.stackexchange.com/a/24185)).
 
 ### The Mint Function
 
-While the [`ERC721` base class]((https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/ERC721.sol))([docs](https://docs.openzeppelin.com/contracts/2.x/erc721)) implements a `_safeMint` function for minting tokens, this function is `internal` (see [here](https://docs.soliditylang.org/en/v0.8.13/contracts.html#function-visibility)) and, in fact, does not do much other than registering ownership of a given integer id (i.e. the minted token's id) to a certain address (i.e. the token's owner). In this section, we want to write a `public` function for minting tokens and attach a **token uri** to the newly token that would contain a link to any relevant data (as we will see later, this will contain in particular the image file for the NFT and its description).
+> While the [`ERC721` base class]((https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/ERC721.sol))([docs](https://docs.openzeppelin.com/contracts/2.x/erc721)) implements a `_safeMint` function for minting tokens, this function is `internal` (see [here](https://docs.soliditylang.org/en/v0.8.13/contracts.html#function-visibility)) and, in fact, does not do much other than registering ownership of a given integer id (i.e. the minted token's id) to a certain address (i.e. the token's owner). In this section, we want to write a `public` function for minting tokens and attach a **token uri** to the newly token that would contain a link to any relevant data (as we will see later, this will contain in particular the image file for the NFT and its description).
 
 10. Declare a `public` function. The function takes as input the uri of the new token (a `string`) and outputs an `uint256` that is the id of the new token (see [docs](https://docs.soliditylang.org/en/v0.8.13/contracts.html#return-variables) for return value declaration). We will refer to the function  by `createToken` but feel free to choose your own descriptive name.
 11. Use `_safeMint` (see [documentation](https://docs.openzeppelin.com/contracts/2.x/api/token/erc721#ERC721-_safeMint-address-uint256-bytes-)) to register the id of the new token to the caller of the function (who is the new token's owner). Typically, tokens are given increasing ids, starting at 0 for the first minted token. To be able to keep track of the next available token id, declare `tokenCounter` variable and initialize it in `constructor` and implement the necessary logic in `createToken`.
