@@ -58,19 +58,31 @@ def find_by_id(drawing, id):
 def unpack_drawing(drawing, offset_stroke=None):
     words = find_by_id(drawing, "Words")
 
-    word_forms = words.contents
+    word_forms = []
+    forms_langs = []
+    # Fixed cases where svgid causes another layer of grouping
+    # Extract lang from svgid
+    for i, wordform in enumerate(words.contents):
+        forms_langs.append(wordform.svgid)
+        if len(wordform.contents) > 1:
+            word_forms.append(wordform.contents)
+        else:
+            word_forms.append(wordform.contents[0].contents)
+            words.contents[i] = wordform.contents[0]
     # Unpack letters
-    letters = zip(*[wordform.contents for wordform in word_forms])
-    P = [[LetterForm(letter_form) for letter_form in letter_forms] for letter_forms in letters]
+
+    letters_forms = zip(*word_forms)
+
+    P = [[LetterForm(letter_form) for letter_form in letter_forms] for letter_forms in letters_forms]
 
     if offset_stroke:
         # Keep two word forms
         words.contents = words.contents[:2]
-        return words.contents[1], P, len(word_forms), words.contents[0]
+        return words.contents[1], P, forms_langs, words.contents[0]
     else:
         # Keep only one word form
         words.contents = words.contents[:1]
-        return words.contents[0], P, len(word_forms), None
+        return words.contents[0], P, forms_langs, None
 
 
 class LetterForm:
@@ -144,7 +156,9 @@ class SpectrumWord:
         # the curves has the same amount of control points
         if offset_stroke:
             self.offset_stroke_color, self.offset_stroke_width = offset_stroke
-        self.word, self.letters, self.forms_count, self.offset_stroke = unpack_drawing(self.drawing, offset_stroke)
+        self.word, self.letters, self.forms_langs, self.offset_stroke = unpack_drawing(self.drawing, offset_stroke)
+        self.forms_count = len(self.forms_langs)
+        self.locs = [-1, 1] if self.forms_count == 2 else np.asarray([(-1, -1), (1, -1), (-1, 1), (1, 1)])
         return
 
     def set_drawing_points(self, letter_parts, points, color, width):
@@ -166,19 +180,30 @@ class SpectrumWord:
         # P is a list of letters, each letter has F forms, each form has the same amount of bezier curves,
         # the curves has the same amount of control points
         for i, (t, letter_forms) in enumerate(zip(T, self.letters)):
-            locs = [-1, 1]
+
             # ith letter
             # linear interpolation
-            if len(letter_forms) == 2:
-                cp = lerp(t, locs, letter_forms)
+            if self.forms_count == 2:
+                cp = lerp(t, self.locs, letter_forms)
                 cp = cp[0]
             # bilinear interpolation
-            if len(letter_forms) == 4:
-                locs = np.asarray([(-1, -1), (1, -1), (-1, 1), (1, 1)])
-                points = list(zip(*locs.T, letter_forms))
+            if self.forms_count == 4:
+                points = list(zip(*self.locs.T, letter_forms))
                 cp = bilinear_interpolation(*t, points)
 
             if self.offset_stroke:
                 self.set_drawing_points(self.offset_stroke.contents[i], cp.strokes, self.offset_stroke_color, cp.stroke_width + self.offset_stroke_width)
             self.set_drawing_points(self.word.contents[i], cp.strokes, cp.stroke_color, cp.stroke_width)
         return self.drawing
+
+    def calculate_ar_heb_percentages(self, centers):
+        Ar = [100 if lang.startswith("Ar") else 0  for lang in self.forms_langs]
+        ar_vals = []
+        for c in centers:
+            if self.forms_count == 2:
+                ar_vals.append(lerp(c, self.locs, Ar))
+            if self.forms_count == 4:
+                points = list(zip(*self.locs.T, Ar))
+                ar_vals.append(bilinear_interpolation(*c, points))
+        ar_percentage = round(np.average(ar_vals), 2)
+        return (ar_percentage, 100 - ar_percentage)
