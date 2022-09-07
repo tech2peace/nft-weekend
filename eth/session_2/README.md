@@ -78,8 +78,12 @@ uint16 public constant vrfRequestConfirmations = 3;
 uint32 public constant vrfNumWords =  1;
 
 ```
-6. Following the template in `VRFv2Consumer.sol` and the explanation above, implement the logic for requesting a random word for every new token minted in `createToken`, and a `fulfillRandomWords` function that fills in the received randomness. Make sure to keep track of which randomness belongs to which token (hint: recall that you can use a `mapping` to map between VRF request ids and token ids).
+6. Following the template in `VRFv2Consumer.sol` and the explanation above, implement the logic to request a random word for every new token minted in `createToken`, and a `fulfillRandomWords` function that fills in the received randomness. Make sure to keep track of which randomness belongs to which token (hint: recall that you can use a `mapping` to map between VRF request ids and token ids).
 
-### 
+> To test the new changes on Remix's local VM, we need to simulate the behavior of the VRF coordinator is if we were interacting with the oracles on Ethereum's mainnet (or testnets). We do that using a mock contract that mimics a legit VRF Coordinator. Luckily, such a contract is publicly available [here](https://github.com/smartcontractkit/chainlink/blob/develop/contracts/src/v0.8/mocks/VRFCoordinatorV2Mock.sol). In order to import it to Remix, it is sufficient to import using the following line:
+```solidity
+import "@chainlink/contracts/src/v0.8/mocks/VRFCoordinatorV2Mock.sol";
+```
+> 
 
 ### Implement Delayed Reveal
