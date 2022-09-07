@@ -20,8 +20,9 @@ class GenerativeType():
         os_color = np.asarray(config["os_color"])/ 255
         os_width = config["os_width"]
         offset_stroke = (os_color, os_width) if os_width > 0 else None
+        self.name = config["name"]
 
-        self.word = SpectrumWord(config["svg_path"], offset_stroke)
+        self.word = SpectrumWord(f"../media/{self.name}/{self.name}.svg", offset_stroke)
         self.l_count = len(self.word.letters)
 
         self.frames_count = config["frames"]
@@ -39,7 +40,6 @@ class GenerativeType():
 
         self.transparency = config["transparency"]
 
-        self.name = config["name"]
         self.outdir = f"../Results/{self.name}"
         Path(self.outdir).mkdir(parents=True, exist_ok=True)
 
@@ -55,11 +55,36 @@ class GenerativeType():
             samples = sample_cirular_animation(C, self.l_count, self.frames_count, self.r)
 
         animate_drawing(self.word, samples, f"{self.name}_{id}", self.outdir, transparent=self.transparency)
-        return C
+        return self.word.calculate_ar_heb_percentages(C)
 
         # metadata = {"strokewidth" : None,
         #             "pallete" = cmap[i],
         #             "svg" = }
+
+def generate_metadata_file(config, ar_heb_percentages, background_image):
+    ar_percentage, heb_percentage = ar_heb_percentages
+    metadata = {
+        "description" : config["description"],
+        "background_color" : config["background_color"],
+        "attributes" : [
+            {
+                "display_type" : "boost_percentage",
+                "trait_type" : "Hebrew",
+                "value" : heb_percentage
+            },
+            {
+                "display_type" : "boost_percentage",
+                "trait_type" : "Arabic",
+                "value" : ar_percentage
+            },
+            {
+                "trait_type" : "Background",
+                "value" :  background_image
+            }
+        ]
+    }
+    return metadata
+
 
 def main():
     configuration_path = "config.json"
@@ -69,8 +94,10 @@ def main():
 
     seed_data = json.load(open(config["randomness_path"]))
     for entry in seed_data:
-        C = nft.generate(entry["id"], entry["randomness"] % SEED_MAX)
-
+        ar_heb = nft.generate(entry["id"], entry["randomness"] % SEED_MAX)
+        # TODO: extract image name from config["background_image"] filename
+        metadata = generate_metadata_file(config, ar_heb, config["background_images"][0])
+        json.dump(metadata, open(f"{nft.outdir}/metadata_{entry['id']}.json", 'w'))
 
 if "__main__" == __name__:
     main()
