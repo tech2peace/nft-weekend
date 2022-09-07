@@ -1,0 +1,7 @@
+numpy~=1.23.1
+Pillow~=7.0.0
+reportlab~=3.5.34
+scipy~=1.8.1
+svglib
+cairosvg
+setuptools~=63.2.0

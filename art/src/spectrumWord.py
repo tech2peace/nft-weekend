@@ -1,7 +1,7 @@
-
 from svglib.svglib import svg2rlg
 import numpy as np
 from reportlab.graphics.shapes import Line, Circle
+
 
 def lerp(t, locs, vals):
     x0, x1 = locs
@@ -9,6 +9,7 @@ def lerp(t, locs, vals):
     length = (x1 - x0)
     c = (t - x0) / length * q0 + (x1 - t) / length * q1
     return c
+
 
 def bilinear_interpolation(x, y, points):
     '''Interpolate (x,y) from values associated with four points.
@@ -40,6 +41,7 @@ def bilinear_interpolation(x, y, points):
             q22 * (x - x1) * (y - y1)
            ) / ((x2 - x1) * (y2 - y1) + 0.0)
 
+
 def find_by_id(drawing, id):
     if not hasattr(drawing, "contents"):
         return None
@@ -51,6 +53,7 @@ def find_by_id(drawing, id):
         if res:
             return res
     return None
+
 
 def unpack_drawing(drawing, offset_stroke=None):
     words = find_by_id(drawing, "Words")
@@ -69,7 +72,8 @@ def unpack_drawing(drawing, offset_stroke=None):
         words.contents = words.contents[:1]
         return words.contents[0], P, len(word_forms), None
 
-class LetterForm():
+
+class LetterForm:
 
     # constructor overloading
     # based on args
@@ -131,7 +135,8 @@ class LetterForm():
     def __add__(self, other):
         return LetterForm(self.strokes + other.strokes, self.stroke_color + other.stroke_color, self.stroke_width + other.stroke_width)
 
-class SpectrumWord():
+
+class SpectrumWord:
 
     def __init__(self, input_path, offset_stroke=None):
         self.drawing = svg2rlg(input_path)

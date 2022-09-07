@@ -13,7 +13,8 @@ from randomness import sample_centers
 
 SEED_MAX = 2**32 - 1
 
-class GenerativeType():
+
+class GenerativeType:
 
     def __init__(self, config):
         # Offset stroke

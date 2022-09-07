@@ -1,6 +1,6 @@
 {
 	"randomness_path" : "randomness.json",
-	"svg_path" : "../Art/Rick.svg",
+	"svg_path" : "../media/Rick.svg",
 	"name" : "Rick",
 
 	"os_color" : [255, 255, 255],
