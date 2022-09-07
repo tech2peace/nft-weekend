@@ -24,7 +24,7 @@ contract VRFv2Consumer is VRFConsumerBaseV2 {
   // The gas lane to use, which specifies the maximum gas price to bump to.
   // For a list of available gas lanes on each network,
   // see https://docs.chain.link/docs/vrf-contracts/#configurations
-  bytes32 keyHash = 0x79d3d8832d904592c0bf9818b621522c988bb8b0c05cdc3b15aea1b6e8db0c15;
+  bytes32 vrfKeyHash = 0x79d3d8832d904592c0bf9818b621522c988bb8b0c05cdc3b15aea1b6e8db0c15;
 
   // Depends on the number of requested values that you want sent to the
   // fulfillRandomWords() function. Storing each word costs about 20,000 gas,
@@ -42,7 +42,7 @@ contract VRFv2Consumer is VRFConsumerBaseV2 {
   uint32 numWords =  2;
 
   uint256[] public s_randomWords;
-  uint256 public s_requestId;
+  uint256 public requestId;
   address s_owner;
 
   constructor(uint64 subscriptionId) VRFConsumerBaseV2(vrfCoordinator) {
@@ -54,7 +54,7 @@ contract VRFv2Consumer is VRFConsumerBaseV2 {
   // Assumes the subscription is funded sufficiently.
   function requestRandomWords() external onlyOwner {
     // Will revert if subscription is not set and funded.
-    s_requestId = COORDINATOR.requestRandomWords(
+    requestId = COORDINATOR.requestRandomWords(
       keyHash,
       s_subscriptionId,
       requestConfirmations,
