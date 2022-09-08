@@ -2,6 +2,7 @@
 	"name" : "Gamal",
 	"randomness_path" : "randomness.json",
 	"background_images" : ["Gamal.png", "Gamal_0.png"],
+	"background_descriptions" : ["Cute Camals", "Very Cute Camals"],
 
 	"os_color" : [255, 255, 255],
 	"os_width" : 10,
