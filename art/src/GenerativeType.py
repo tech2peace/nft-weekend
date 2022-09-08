@@ -15,8 +15,8 @@ class GenerativeType:
         os_width = config["os_width"]
         offset_stroke = (os_color, os_width) if os_width > 0 else None
         self.name = config["name"]
-
-        self.word = SpectrumWord(f"../media/{self.name}/{self.name}.svg", offset_stroke)
+        self.input_path = os.path.join("..", "media", self.name)
+        self.word = SpectrumWord(f"{self.input_path}/{self.name}.svg", self.input_path, offset_stroke)
         self.l_count = len(self.word.letters)
 
         self.frames_count = config["frames"]
@@ -34,12 +34,17 @@ class GenerativeType:
 
         self.transparency = config["transparency"]
 
+        self.bg_images = config["background_images"]
+        self.bg_descriptions = config["background_descriptions"]
+
         self.outdir = f"../Results/{self.name}"
         Path(self.outdir).mkdir(parents=True, exist_ok=True)
 
 
     def generate(self, id, seed=None):
         np.random.seed(seed)
+        self.word.set_background_image(self.bg_images, self.bg_descriptions)
+
         C = sample_centers(self.word.forms_count, self.l_count, self.dist, self.R, self.r)
         print_drawing(self.word, C, f"{self.name}_{id}", self.outdir)
         if self.word.forms_count == 2:
@@ -79,6 +84,17 @@ def generate_metadata_file(config, ar_heb_percentages, background_image):
     }
     return metadata
 
+def test():
+    configuration_path = "config.json"
+    config = json.load(open(configuration_path))
+
+    nft = GenerativeType(config)
+
+    for i in range(20):
+        ar_heb = nft.generate(i, None)
+        metadata_path = f"{nft.outdir}/metadata_{i}.json"
+        metadata = generate_metadata_file(config, ar_heb, nft.word.bg_description)
+        json.dump(metadata, open(metadata_path, 'w'))
 
 def main():
     configuration_path = "config.json"
@@ -89,9 +105,9 @@ def main():
     seed_data = json.load(open(config["randomness_path"]))
     for entry in seed_data:
         ar_heb = nft.generate(entry["id"], entry["randomness"] % SEED_MAX)
-        # TODO: extract image name from config["background_image"] filename
-        metadata = generate_metadata_file(config, ar_heb, config["background_images"][0])
-        json.dump(metadata, open(f"{nft.outdir}/metadata_{entry['id']}.json", 'w'))
+        metadata_path = f"{nft.outdir}/metadata_{entry['id']}.json"
+        metadata = generate_metadata_file(config, ar_heb, nft.word.bg_description)
+        json.dump(metadata, open(metadata_path, 'w'))
 
 if "__main__" == __name__:
-    main()
+    test()

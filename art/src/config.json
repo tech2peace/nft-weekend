@@ -1,7 +1,8 @@
 {
-	"name" : "Rick",
+	"name" : "Gamal",
 	"randomness_path" : "randomness.json",
-	"background_images" : ["../media/World/World.png"],
+	"background_images" : ["Gamal.png", "Gamal_0.png"],
+	"background_descriptions" : ["Cute Camals", "Very Cute Camals"],
 
 	"os_color" : [255, 255, 255],
 	"os_width" : 10,
@@ -10,7 +11,7 @@
 	"r" : 0.1,
 
 	"frames" : 20,
-	"transparency" : true,
+	"transparency" : false,
 
 	"description" : "A human readable description of the item. Markdown is supported",
 	"background_color" : "Background color of the item on OpenSea. Must be a six-character hexadecimal without a prepended #"

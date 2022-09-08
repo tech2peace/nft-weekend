@@ -1,7 +1,7 @@
 from svglib.svglib import svg2rlg
 import numpy as np
-from reportlab.graphics.shapes import Line, Circle
-
+from reportlab.graphics.shapes import Line, Circle, Image
+import os
 
 def lerp(t, locs, vals):
     x0, x1 = locs
@@ -54,6 +54,12 @@ def find_by_id(drawing, id):
             return res
     return None
 
+
+def extract_background(drawing):
+    bg = find_by_id(drawing, "Background")
+    if bg and len(bg.contents) > 0:
+        return bg.contents[0]
+    return None
 
 def unpack_drawing(drawing, offset_stroke=None):
     words = find_by_id(drawing, "Words")
@@ -150,7 +156,7 @@ class LetterForm:
 
 class SpectrumWord:
 
-    def __init__(self, input_path, offset_stroke=None):
+    def __init__(self, input_path, bg_path, offset_stroke=None):
         self.drawing = svg2rlg(input_path)
         # P is a list of letters, each letter has F forms, each form has the same amount of bezier curves,
         # the curves has the same amount of control points
@@ -159,7 +165,22 @@ class SpectrumWord:
         self.word, self.letters, self.forms_langs, self.offset_stroke = unpack_drawing(self.drawing, offset_stroke)
         self.forms_count = len(self.forms_langs)
         self.locs = [-1, 1] if self.forms_count == 2 else np.asarray([(-1, -1), (1, -1), (-1, 1), (1, 1)])
+
+        self.bg = extract_background(self.drawing)
+        self.bg_path = bg_path
+        self.bg_img = ""
+        self.bg_description = ""
         return
+
+    def set_background_image(self, img_paths, img_desc):
+        if self.bg:
+            i = np.random.randint(len(img_paths))
+            self.bg_img, self.bg_description = img_paths[i], img_desc[i]
+            path = os.path.join(self.bg_path, self.bg_img)
+            curr_bg = self.bg.contents[0]
+            new_bg = Image(curr_bg.x, curr_bg.y, curr_bg.width, curr_bg.height, path)
+            self.bg.contents[0] = new_bg
+        pass
 
     def set_drawing_points(self, letter_parts, points, color, width):
         for p, g in zip(points, letter_parts.contents):
