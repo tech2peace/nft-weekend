@@ -1,10 +1,9 @@
-### ETH Track, Session 2
-# Basic ERC721 Contract
+### ETH Track, Afternoon Session
+# Verifiable Randomness and Toke URIs
 
 ## Prerequisites
 
 - A web browser
-- A metamask wallet
 
 ## Roadmap
 
@@ -79,6 +78,7 @@ uint32 public constant vrfNumWords =  1;
 
 ```
 6. Following the template in `VRFv2Consumer.sol` and the explanation above, implement the logic to request a random word for every new token minted in `createToken`, and a `fulfillRandomWords` function that fills in the received randomness. Make sure to keep track of which randomness belongs to which token (hint: recall that you can use a `mapping` to map between VRF request ids and token ids).
+7. Implement a `tokenRandomness` function that takes as input a token id (an `uint256`) and returns the random value corresponding to the token or `0` if it does not exist yet. Use the `view` keyword to declare that the function is read-only does not change the contract (see [docs](https://docs.soliditylang.org/en/v0.8.17/contracts.html?highlight=view#view-functions)).
 
 > To test the new changes on Remix's local VM, we need to simulate the behavior of the VRF coordinator as if we were interacting with the oracles on Ethereum's mainnet (or testnets). We do that using a mock contract that mimics a legit VRF Coordinator (the only difference being that it outoputs "fake randomness" (which is predictable). Luckily, such a contract is publicly available [here](https://github.com/smartcontractkit/chainlink/blob/develop/contracts/src/v0.8/mocks/VRFCoordinatorV2Mock.sol).
 >
@@ -110,4 +110,4 @@ and implement it so it returns the uri of the token corresponding to the given i
 
 ### Freestyle
 
-18. This is the time to wake up your creative self and add fancy features and game rules in your contract to make you NFT project unique and interesting :alien::monkey::sparkles:.
+18. This is the time to shake up your creative self and add fancy features and game rules in your contract to make you NFT project unique and interesting :alien::monkey::sparkles:.

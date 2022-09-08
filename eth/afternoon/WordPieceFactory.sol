@@ -70,6 +70,10 @@ contract WordPieceFactory is ERC721, VRFConsumerBaseV2 {
         tokenCounter = 0;
     }
 
+    function tokenRandomness(uint256 pieceId) public view returns (uint256) {
+        return pieceById[pieceId].randomness;
+    }
+
     // for OpenSea
     function tokenURI(uint256 pieceId) public override view returns (string memory) {
         return pieceById[pieceId].uri;
