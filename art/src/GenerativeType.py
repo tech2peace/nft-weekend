@@ -1,3 +1,9 @@
+import os
+try:
+    os.environ['path'] += r';C:\Users\Tech2Peace\dlls'
+except:
+    pass
+
 import json
 from pathlib import Path
 from spectrumWord import SpectrumWord
