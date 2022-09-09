@@ -1,6 +1,6 @@
 from svglib.svglib import svg2rlg
 import numpy as np
-from reportlab.graphics.shapes import Line, Circle, Image, Rect
+from reportlab.graphics.shapes import Line, Circle, Image, Polygon
 import os
 
 def lerp(t, locs, vals):
@@ -121,6 +121,13 @@ class LetterForm:
             self.stroke_color = np.asarray(
                 [sc.red, sc.green, sc.blue])
             self.stroke_width = letter_form.strokeWidth
+        elif type(letter_form) == Polygon:
+            control_points = letter_form.points
+            self.strokes.append(np.asarray(control_points))
+            sc = letter_form.strokeColor
+            self.stroke_color = np.asarray(
+                [sc.red, sc.green, sc.blue])
+            self.stroke_width = letter_form.strokeWidth
         else:
             for letter_part in letter_form.contents:
                 if hasattr(letter_part, "contents"):
@@ -183,17 +190,23 @@ class SpectrumWord:
         pass
 
     def set_drawing_points(self, letter_parts, points, color, width):
-        for p, g in zip(points, letter_parts.contents):
-            if hasattr(g, "contents"):
-                g = g.contents[0]
-            if type(g) == Line:
-                g.x1, g.x2, g.y1, g.y2 = p.tolist()
-            elif type(g) == Circle:
-                g.cx, g.cy = p.tolist()
-            else:
-                g.strokeColor.red, g.strokeColor.green, g.strokeColor.blue = color
-                g.strokeWidth = width
-                g.points = p.tolist()
+        if not hasattr(letter_parts, "contents"):
+            if type(letter_parts) == Polygon:
+                letter_parts.points = points[0].tolist()
+                letter_parts.strokeColor.red, letter_parts.strokeColor.green, letter_parts.strokeColor.blue = color
+                letter_parts.strokeWidth = width
+        else:
+            for p, g in zip(points, letter_parts.contents):
+                if hasattr(g, "contents"):
+                    g = g.contents[0]
+                if type(g) == Line:
+                    g.x1, g.x2, g.y1, g.y2 = p.tolist()
+                elif type(g) == Circle:
+                    g.cx, g.cy = p.tolist()
+                else:
+                    g.strokeColor.red, g.strokeColor.green, g.strokeColor.blue = color
+                    g.strokeWidth = width
+                    g.points = p.tolist()
 
     def sample(self, T):
         assert len(self.letters) == len(T)
