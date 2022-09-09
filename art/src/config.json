@@ -13,6 +13,6 @@
 	"frames" : 20,
 	"transparency" : false,
 
-	"description" : "A human readable description of the item. Markdown is supported",
-	"background_color" : "Background color of the item on OpenSea. Must be a six-character hexadecimal without a prepended #"
+	"description" : "Rick",
+	"background_color" : "FFFFFF"
 }

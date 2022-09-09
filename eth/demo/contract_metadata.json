@@ -1,0 +1,7 @@
+{
+    "name": "WordPiece Rick",
+    "description": "Sending Rick to the infinite Aravrit Spectrum! Brought to you by Tech2Peace.",
+    "image": "ipfs://QmcZtx6M82zxnBTNdSv6C2nhohkfMXm2W5CftYpjdgVmes",
+    "seller_fee_basis_points": 500, # Indicates a 5% seller fee.
+    "fee_recipient": "0x496788a0db6f3c64F7B2544AD331c6538F68427C" # Where seller fees will be paid to.
+  }

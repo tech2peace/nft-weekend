@@ -1,4 +1,4 @@
-### ETH Track, Session 1
+### ETH Track, Morning Session
 # Basic ERC721 Contract
 
 ## Prerequisites

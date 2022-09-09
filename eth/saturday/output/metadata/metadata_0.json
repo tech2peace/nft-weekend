@@ -1,0 +1,21 @@
+{
+    "description": "WordPiece Rick",
+    "background_color": "Transparent af",
+    "attributes": [
+        {
+            "display_type": "boost_percentage",
+            "trait_type": "Hebrew",
+            "value": 44.36
+        },
+        {
+            "display_type": "boost_percentage",
+            "trait_type": "Arabic",
+            "value": 55.64
+        },
+        {
+            "trait_type": "Background",
+            "value": "../media/World/World.png"
+        }
+    ],
+    "image": "ipfs://QmQdEfBv6fHQiDbsrHcKz543Hp2Mmn2eUxTgviXxGWVcC6"
+}
