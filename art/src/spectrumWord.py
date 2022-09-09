@@ -57,7 +57,7 @@ def find_by_id(drawing, id):
 
 def extract_background(drawing):
     bg = find_by_id(drawing, "Background")
-    if bg and len(bg.contents) > 0 and type(bg.contents[0]) == Image:
+    if bg and len(bg.contents) > 0:
         return bg.contents[0]
     return None
 
