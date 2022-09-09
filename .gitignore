@@ -7,4 +7,4 @@ src/__pycache__/
 
 .env
 
-generate_random_number.py
+generate_random_numbers.py
