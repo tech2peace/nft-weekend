@@ -6,3 +6,6 @@ Results/
 src/__pycache__/
 
 .env
+.idea/
+
+Art/src/__pycache__/
