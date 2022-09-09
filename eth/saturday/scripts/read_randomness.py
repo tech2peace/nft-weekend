@@ -10,20 +10,18 @@ web3 = Web3(Web3.HTTPProvider(os.getenv('INFURA_URL')))
 abi_file = open(os.getenv('CONTRACT_ABI'))
 abi = json.load(abi_file)
 
-suffix = ''
-
-STATUS = 4
-RANDOMNESS = 2
-
 contract = web3.eth.contract(address = os.getenv('CONTRACT_ADDRESS'), abi = abi)
-tokenCounter = contract.functions.tokenCounter().call()
+token_counter = contract.functions.tokenCounter().call()
+contract_symbol = contract.functions.symbol().call()
 entries = []
-for id in range(tokenCounter):
-    piece = contract.functions.pieceById(id).call()
-    if(piece[STATUS] == 1):
+
+for id in range(token_counter):
+    token_randomness = contract.functions.tokenRandomness(id).call()
+
+    if(token_randomness != 0):
         piece_entry = {
             "id": id,
-            "randomness": piece[RANDOMNESS]
+            "randomness": token_randomness
         }
         entries.append(piece_entry)
 
