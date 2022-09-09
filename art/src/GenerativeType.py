@@ -1,6 +1,6 @@
 import os
 try:
-    os.environ['path'] += r';C:\Users\Tech2Peace\dlls'
+    os.environ['path'] += r';C:\Program files\UniConvertor-2.0rc5\dlls'
 except:
     pass
 
