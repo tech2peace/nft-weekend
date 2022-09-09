@@ -215,16 +215,19 @@ class SpectrumWord:
         # the curves has the same amount of control points
         for i, (t, letter_forms) in enumerate(zip(T, self.letters)):
 
-            # ith letter
-            # linear interpolation
-            if self.forms_count == 2:
-                cp = lerp(t, self.locs, letter_forms)
-                cp = cp[0]
-            # bilinear interpolation
-            if self.forms_count == 4:
-                points = list(zip(*self.locs.T, letter_forms))
-                cp = bilinear_interpolation(*t, points)
-
+            try:
+                # ith letter
+                # linear interpolation
+                if self.forms_count == 2:
+                    cp = lerp(t, self.locs, letter_forms)
+                    cp = cp[0]
+                # bilinear interpolation
+                if self.forms_count == 4:
+                    points = list(zip(*self.locs.T, letter_forms))
+                    cp = bilinear_interpolation(*t, points)
+            except ValueError as e:
+                print(f"letters at position {i} are not well aligned")
+                raise e
             if self.offset_stroke:
                 self.set_drawing_points(self.offset_stroke.contents[i], cp.strokes, self.offset_stroke_color, cp.stroke_width + self.offset_stroke_width)
             self.set_drawing_points(self.word.contents[i], cp.strokes, cp.stroke_color, cp.stroke_width)
