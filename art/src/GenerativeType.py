@@ -96,6 +96,16 @@ def test():
         metadata = generate_metadata_file(config, ar_heb, nft.word.bg_description)
         json.dump(metadata, open(metadata_path, 'w'))
 
+def generateArtFromArray(randomness_entries):
+    art_config = json.load(open(configuration_path))
+    generative_module = GenerativeType(art_config)
+    for entry in randomness_entries:
+        ar_heb = generative_module.generate(entry["id"], entry["randomness"] % SEED_MAX)
+        metadata_path = f"{generative_module.outdir}/metadata_{entry['id']}.json"
+        metadata = generate_metadata_file(art_config, ar_heb, generative_module.word.bg_description)
+        json.dump(metadata, open(metadata_path, 'w'))
+
+
 def main():
     configuration_path = "config.json"
     config = json.load(open(configuration_path))
