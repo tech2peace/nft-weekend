@@ -8,3 +8,7 @@ src/__pycache__/
 .env
 
 generate_random_numbers.py
+
+.idea/
+
+Art/src/__pycache__/
