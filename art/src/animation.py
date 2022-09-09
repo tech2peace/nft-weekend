@@ -1,5 +1,5 @@
 from PIL import Image
-import cairosvg
+#import cairosvg
 from reportlab.graphics import renderSVG, renderPM
 import numpy as np
 import os
@@ -47,14 +47,17 @@ def gen_frame(path):
 
     return im
 
-def print_drawing(sWord, samples, name, outdir="."):
+def print_drawing(sWord, samples, name, outdir=".", transparent=False):
     sWord.sample(samples)
 
-    svgfname = outdir + f"/{name}.svg"
     pngfname = outdir + f"/{name}.png"
-    renderSVG.drawToFile(sWord.drawing, svgfname, fmt="SVG")
-    cairosvg.svg2png(url=svgfname, write_to=pngfname)
-    os.remove(svgfname)
+    if transparent:
+        svgfname = outdir + f"/{name}.svg"
+        renderSVG.drawToFile(sWord.drawing, svgfname, fmt="SVG")
+        cairosvg.svg2png(url=svgfname, write_to=pngfname)
+        os.remove(svgfname)
+    else:
+        renderPM.drawToFile(sWord.drawing, pngfname, fmt="PNG")
 
 def animate_drawing(sWord, samples, name, outdir=".", transparent=False):
     images = []

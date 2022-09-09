@@ -1,3 +1,9 @@
+import os
+try:
+    os.environ['path'] += r';C:\Program files\UniConvertor-2.0rc5\dlls'
+except:
+    pass
+
 import json
 from pathlib import Path
 from spectrumWord import SpectrumWord

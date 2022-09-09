@@ -1,6 +1,6 @@
 from svglib.svglib import svg2rlg
 import numpy as np
-from reportlab.graphics.shapes import Line, Circle, Image
+from reportlab.graphics.shapes import Line, Circle, Image, Rect
 import os
 
 def lerp(t, locs, vals):
@@ -57,7 +57,7 @@ def find_by_id(drawing, id):
 
 def extract_background(drawing):
     bg = find_by_id(drawing, "Background")
-    if bg and len(bg.contents) > 0:
+    if bg and len(bg.contents) > 0 and type(bg.contents[0]) == Image:
         return bg.contents[0]
     return None
 

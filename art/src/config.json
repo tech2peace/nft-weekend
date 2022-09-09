@@ -1,11 +1,11 @@
 {
-	"name" : "Gamal",
+	"name" : "9am",
 	"randomness_path" : "randomness.json",
-	"background_images" : ["Gamal.png", "Gamal_0.png"],
-	"background_descriptions" : ["Cute Camals", "Very Cute Camals"],
+	"background_images" : null,
+	"background_descriptions" : null,
 
 	"os_color" : [255, 255, 255],
-	"os_width" : 10,
+	"os_width" : 0,
 
 	"R" : 1,
 	"r" : 0.1,
