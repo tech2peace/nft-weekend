@@ -1,10 +1,10 @@
 {
-	"name" : "9am",
+	"name" : "Malka",
 	"randomness_path" : "randomness.json",
-	"background_images" : ["9am0.png", "9am1.png", "9am2.png", "9am3.png"],
-	"background_descriptions" : ["a hungry religious man fasting, digital art", "a hungry religious man fasting, digital art", "a hungry religious man fasting, digital art", "a hungry religious woman fasting, digital art"],
+	"background_images" : ["Malka2.png", "Malka3.png"],
+	"background_descriptions" : ["Malka Beer", "God save the Queen"],
 
-	"os_color" : [255, 255, 255],
+	"os_color" : [253, 251, 210],
 	"os_width" : 10,
 
 	"R" : 1,
