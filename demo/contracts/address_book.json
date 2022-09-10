@@ -10,5 +10,17 @@
     {
         "symbol": "EGG",
         "address": "0x4AF62df2bEd7116e19Ce4D7Fbf7d5b29fF756a63"
+    },
+    {
+        "symbol": "ARD",
+        "address": "0x37cE38dA8065adC7295B6a4cB5eb1480391F7551"
+    },
+    {
+        "symbol": "7BA",
+        "address": "0x1C97b4fB3e4665e81567c4CF45f8eaC4D9Ff751A"
+    },
+    {
+        "symbol": "YOM",
+        "address": "0xaE3fDD30b74Bcb769dBdCAd16Ed4aD2aB644A04A"
     }
 ]
