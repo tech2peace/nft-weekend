@@ -1,0 +1,18 @@
+{
+	"name" : "War2",
+	"randomness_path" : "randomness.json",
+	"background_images" : ["War(1).png", "War(2).png", "War(3).png", "War(4).png", "War(5).png", "War(6).png"],
+	"background_descriptions" : ["Cracking Land", "Reaching Over Cracks", "Land of Blood", "Diplomats", "Reaching Over the Wall", "Blurred Away"],
+
+	"os_color" : [253, 251, 250],
+	"os_width" : 10,
+
+	"R" : 1,
+	"r" : 0.8,
+
+	"frames" : 50,
+	"transparency" : false,
+
+	"description" : "description",
+	"background_color" : "FFFFFF"
+}
