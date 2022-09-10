@@ -22,9 +22,13 @@
     {
         "symbol": "YOM",
         "address": "0xaE3fDD30b74Bcb769dBdCAd16Ed4aD2aB644A04A"
-    }
+    },
     {
         "symbol": "RAS",
         "address": "0x35444D232c06Df0E7808FA890690Bf523D45d223"
+    },
+    {
+        "symbol": "amd",
+        "address": "0xAd1c408aFAD09a8a37aE4d7A3ac34427bAEA67DA"
     }
 ]
