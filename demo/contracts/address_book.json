@@ -1,11 +1,7 @@
 [
     {
-    "symbol": "WRD",
-    "address": "0x6037621ad97F5029E4Cee6DC347214f6c9319241"
-    },
-    {
-    "symbol": "MAL",
-    "address": "0x795432a40cb38a6a87b1dc4c24c739d7a534e99705a01bfb54fd67c5f921ea80"
+        "symbol": "MAL",
+        "address": "0x795432a40cb38a6a87b1dc4c24c739d7a534e99705a01bfb54fd67c5f921ea80"
     },
     {
         "symbol": "EGG",
@@ -28,7 +24,7 @@
         "address": "0x35444D232c06Df0E7808FA890690Bf523D45d223"
     },
     {
-        "symbol": "amd",
+        "symbol": "AMD",
         "address": "0xAd1c408aFAD09a8a37aE4d7A3ac34427bAEA67DA"
     }
 ]

@@ -1,0 +1,18 @@
+{
+	"name" : "Hba",
+	"randomness_path" : "randomness.json",
+	"background_images" : ["Hba(1).png", "Hba(2).png", "Hba(3).png"],
+	"background_descriptions" : ["Immanuel Kant", "Abu Laila", "Al Ghazzali"],
+
+	"os_color" : [253, 251, 240],
+	"os_width" : 10,
+
+	"R" : 1,
+	"r" : 0.3,
+
+	"frames" : 20,
+	"transparency" : false,
+
+	"description" : "Little by little, step by step, seed by seed, habba habba. The olive tree grows",
+	"background_color" : "FFFFFF"
+}
