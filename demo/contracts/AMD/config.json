@@ -1,0 +1,18 @@
+{
+	"name" : "dream",
+	"randomness_path" : "randomness.json",
+	"background_images" : null,
+	"background_descriptions" : null,
+
+	"os_color" : [255, 255, 255],
+	"os_width" : 0,
+
+	"R" : 1,
+	"r" : 0.9,
+
+	"frames" : 40,
+	"transparency" : false,
+
+	"description" : "A human readable description of the item. Markdown is supported",
+	"background_color" : "Background color of the item on OpenSea. Must be a six-character hexadecimal without a prepended #"
+}
