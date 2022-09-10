@@ -1,0 +1,18 @@
+{
+	"name" : "9am",
+	"randomness_path" : "randomness.json",
+	"background_images" : ["9am0.png", "9am1.png", "9am2.png", "9am3.png"],
+	"background_descriptions" : ["a hungry religious man fasting, digital art", "a hungry religious man fasting, digital art", "a hungry religious man fasting, digital art", "a hungry religious woman fasting, digital art"],
+
+	"os_color" : [255, 255, 255],
+	"os_width" : 10,
+
+	"R" : 1,
+	"r" : 0.1,
+
+	"frames" : 20,
+	"transparency" : false,
+
+	"description" : "description",
+	"background_color" : "FFFFFF"
+}

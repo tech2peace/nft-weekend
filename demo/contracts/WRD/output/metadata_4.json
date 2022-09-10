@@ -1,0 +1,21 @@
+{
+    "description": "description",
+    "background_color": "FFFFFF",
+    "attributes": [
+        {
+            "display_type": "boost_percentage",
+            "trait_type": "Hebrew",
+            "value": 21.060000000000002
+        },
+        {
+            "display_type": "boost_percentage",
+            "trait_type": "Arabic",
+            "value": 78.94
+        },
+        {
+            "trait_type": "Background",
+            "value": ""
+        }
+    ],
+    "image": "ipfs://QmbbxXFX85jdDjQxju2wDr4cEmgqKqmakXeszZV9A3HD8S"
+}

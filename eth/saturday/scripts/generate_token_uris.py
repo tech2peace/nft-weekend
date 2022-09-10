@@ -24,7 +24,7 @@ for id in range(token_counter):
             "randomness": token_randomness
         }
         entries.append(piece_entry)
-    
+
 generateArtFromArray(entries, os.getenv('OUTPUT_DIR'))
 
 

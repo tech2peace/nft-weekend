@@ -3,19 +3,20 @@ from pathlib import Path
 from spectrumWord import SpectrumWord
 from animation import *
 from randomness import sample_centers
+from genericpath import isfile
 
 SEED_MAX = 2**32 - 1
 
 
 class GenerativeType:
 
-    def __init__(self, config):
+    def __init__(self, media_path, config):
         # Offset stroke
         os_color = np.asarray(config["os_color"])/ 255
         os_width = config["os_width"]
         offset_stroke = (os_color, os_width) if os_width > 0 else None
         self.name = config["name"]
-        self.input_path = os.path.join("..", "media", self.name)
+        self.input_path = os.path.join(media_path)
         self.word = SpectrumWord(f"{self.input_path}/{self.name}.svg", self.input_path, offset_stroke)
         self.l_count = len(self.word.letters)
 
@@ -46,14 +47,14 @@ class GenerativeType:
         self.word.set_background_image(self.bg_images, self.bg_descriptions)
 
         C = sample_centers(self.word.forms_count, self.l_count, self.dist, self.R, self.r)
-        print_drawing(self.word, C, f"{self.name}_{id}", output_dir)
+        print_drawing(self.word, C, os.getenv('IMAGE_PREFIX') + str(id), output_dir)
         if self.word.forms_count == 2:
             samples = sample_straight_animation(C, self.l_count, self.frames_count, self.pad, self.r)
 
         elif self.word.forms_count == 4:
             samples = sample_cirular_animation(C, self.l_count, self.frames_count, self.r)
 
-        animate_drawing(self.word, samples, f"{self.name}_{id}", output_dir, transparent=self.transparency)
+        animate_drawing(self.word, samples, os.getenv('IMAGE_PREFIX') + str(id), output_dir, transparent=self.transparency)
         return self.word.calculate_ar_heb_percentages(C)
 
         # metadata = {"strokewidth" : None,
@@ -96,14 +97,21 @@ def test():
         metadata = generate_metadata_file(config, ar_heb, nft.word.bg_description)
         json.dump(metadata, open(metadata_path, 'w'))
 
-def generateArtFromArray(randomness_entries, config_path, output_dir):
+def generateArtFromArray(randomness_entries, media_path, config_path, output_dir):
     art_config = json.load(open(config_path))
-    generative_module = GenerativeType(art_config)
+    generative_module = GenerativeType(media_path, art_config)
     for entry in randomness_entries:
+        if os.path.isfile(output_dir + "/" + os.environ.get('METADATA_PREFIX') + str(entry["id"]) + ".json"):
+            print("skipping token " + str(entry["id"]) + ", art already generated")
+            continue
+        print("generating art for token " + str(entry["id"]) + "...")
         ar_heb = generative_module.generate(entry["id"], output_dir, entry["randomness"] % SEED_MAX)
-        metadata_path = f"{output_dir}/metadata_{entry['id']}.json"
+        metadata_path = output_dir + "/" + os.environ.get('METADATA_PREFIX') + str(entry["id"]) + ".json"
+        print("complete")
+        print("generating metadata for token " + str(entry["id"]) + "...")
         metadata = generate_metadata_file(art_config, ar_heb, generative_module.word.bg_description)
         json.dump(metadata, open(metadata_path, 'w'))
+        print("complete")
 
 
 def main():
